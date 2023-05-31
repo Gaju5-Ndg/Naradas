@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-
+import HistoryTable from '../../views/FormElements/items';
 import { NavLink } from 'react-router-dom';
 import logo from "../../images/logo-2.png";
 import {RiAccountCircleFill} from 'react-icons/ri'
@@ -34,7 +34,7 @@ export default function Navbar () {
             <RiAccountCircleFill style={{ fontSize: "20px", color: "white", cursor: "pointer" }} />
             {showDropdown && (
               <ul className="dropdown-menu">
-                <li>History</li>
+                <li><NavLink to="/historytable">History</NavLink></li>
                 <li onClick={handleLogout}>Logout</li>
               </ul>
             )}

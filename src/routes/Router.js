@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Category from "../views/FormElements/categories";
+// import HistoryTable from "../views/FormElements/historyTable";
 import Items from "../views/FormElements/items";
 import PaymentTable from "../views/FormElements/Pay";
 import PaymentModal from "../views/FormElements/PaymentModal";
@@ -28,6 +29,7 @@ import ForgotPassword from "../components/Landingpage/Forgotpassword";
 import BusinessForm from "../components/Landingpage/BusinessForm";
 import ProfitReport from "../components/Landingpage/ProfitReport";
 import Statements from "../views/FormElements/Statements";
+import HistoryTable from "../components/Landingpage/HistoryTable";
 
 
 /****Layouts*****/
@@ -74,6 +76,13 @@ const ThemeRoutes = [
 
   { path: "/businessform", element: <BusinessForm /> },
 
+
+  {
+    path: "/",
+    element: <Navigate to="/historytable" />,
+  },
+
+  { path: "/historytable", element: <HistoryTable /> },
 
 
   {
