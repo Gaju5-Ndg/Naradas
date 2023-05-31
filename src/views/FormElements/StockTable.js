@@ -309,13 +309,144 @@ const StockTable = () => {
           <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
             Update Client
           </Typography>
-          <TextField id="outlined-basic" label="Amount"  variant="outlined" />
-          <TextField id="filled-basic" label="Installment"  variant="filled" />
-          <TextField id="outlined-basic" label="Amount"  variant="outlined" />
-          <TextField id="filled-basic" label="Installment"  variant="filled" />
-          <TextField id="outlined-basic" label="Amount"  variant="outlined" />
-          <TextField id="filled-basic" label="Installment"  variant="filled" />
-          <Button variant="contained" >update</Button>
+          <TextField
+            id="outlined-basic"
+            label="Names"
+            variant="outlined"
+            value={editClientData.Names}
+            onChange={(e) =>
+              setEditClientData({
+                ...editClientData,
+                Names: e.target.value,
+              })
+            }
+          />
+          <TextField
+            id="outlined-basic"
+            label="PaymentStartDate"
+            variant="outlined"
+            value={editClientData.PaymentStartDate}
+            onChange={(e) =>
+              setEditClientData({
+                ...editClientData,
+                PaymentStartDate: e.target.value,
+              })
+            }
+          />
+
+          <TextField
+            id="outlined-basic"
+            label="Sensor"
+            variant="outlined"
+            value={editClientData.Sensor}
+            onChange={(e) =>
+              setEditClientData({
+                ...editClientData,
+                Sensor: e.target.value,
+              })
+            }
+          />
+          <TextField
+            id="outlined-basic"
+            label="Battery"
+            variant="outlined"
+            value={editClientData.Battery}
+            onChange={(e) =>
+              setEditClientData({
+                ...editClientData,
+                Battery: e.target.value,
+              })
+            }
+          />
+          <TextField
+            id="outlined-basic"
+            label="NaradaTel"
+            variant="outlined"
+            value={editClientData.NaradaTel}
+            onChange={(e) =>
+              setEditClientData({
+                ...editClientData,
+                NaradaTel: e.target.value,
+              })
+            }
+          />
+          <TextField
+            id="outlined-basic"
+            label="Phone"
+            variant="outlined"
+            value={editClientData.Phone}
+            onChange={(e) =>
+              setEditClientData({
+                ...editClientData,
+                Phone: e.target.value,
+              })
+            }
+          />
+          <TextField
+            id="outlined-basic"
+            label="MonthlyInstallment"
+            variant="outlined"
+            value={editClientData.MonthlyInstallment}
+            onChange={(e) =>
+              setEditClientData({
+                ...editClientData,
+                MonthlyInstallment: e.target.value,
+              })
+            }
+          />
+          <TextField
+            id="outlined-basic"
+            label="District"
+            variant="outlined"
+            value={editClientData.District}
+            onChange={(e) =>
+              setEditClientData({
+                ...editClientData,
+                District: e.target.value,
+              })
+            }
+          />
+          <TextField
+            id="outlined-basic"
+            label="Sector"
+            variant="outlined"
+            value={editClientData.Sector}
+            onChange={(e) =>
+              setEditClientData({
+                ...editClientData,
+                Sector: e.target.value,
+              })
+            }
+          />
+          <TextField
+            id="outlined-basic"
+            label="Cell"
+            variant="outlined"
+            value={editClientData.Cell}
+            onChange={(e) =>
+              setEditClientData({
+                ...editClientData,
+                Cell: e.target.value,
+              })
+            }
+          />
+          <TextField
+            id="outlined-basic"
+            label="Nearby"
+            variant="outlined"
+            value={editClientData.Nearby}
+            onChange={(e) =>
+              setEditClientData({
+                ...editClientData,
+                Nearby: e.target.value,
+              })
+            }
+          />
+          <Button variant="contained" onClick={handleUpdate}>
+            Update
+          </Button>
+
+          {/* <Button variant="contained" >update</Button>  */}
         </Box>
       </Modal>
       </div>
