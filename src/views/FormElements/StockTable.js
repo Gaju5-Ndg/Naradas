@@ -139,7 +139,8 @@ const StockTable = () => {
   };
 
   return (
-    <>
+    <div style={{ height: "500px", overflow: "auto" }}>
+    
       <div>
         <select
         className="form-select"
@@ -317,7 +318,8 @@ const StockTable = () => {
           <Button variant="contained" >update</Button>
         </Box>
       </Modal>
-    </>
+      </div>
+    
   );
 };
 
