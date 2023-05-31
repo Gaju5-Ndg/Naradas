@@ -4,17 +4,12 @@ import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@m
 
 const dummyHistoryData = [
   {
-    username: "John Doe",
+    username: "Nomi",
     monthlyInstallment: 100,
     totalAmount: 500,
     totalRemaining: 300,
   },
-  {
-    username: "Jane Smith",
-    monthlyInstallment: 150,
-    totalAmount: 1000,
-    totalRemaining: 750,
-  },
+  
 
 ];
 
