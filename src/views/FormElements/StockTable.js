@@ -115,6 +115,15 @@ const StockTable = () => {
           "https://narada.onrender.com/api/client/getAll"
         );
         setClients(response.data.clients);
+        setAllClients(response.data.clients);
+
+        // fetch sensor data and save unique sensors
+        const clientSensors = [
+          ...new Set(response.data.clients.map((client) => client.sensor)),
+        ];
+        setSensors(clientSensors);
+
+        console.log(response.data.clients, "clients");
       } catch (error) {
         console.log(error);
         alert("An error occurred while getting clients.");
@@ -179,6 +188,7 @@ const StockTable = () => {
           },
         }
       );
+      alert(" client deleted successfully.");
 
       console.log(response.data);
     } catch (error) {

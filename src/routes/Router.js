@@ -79,10 +79,10 @@ const ThemeRoutes = [
 
   {
     path: "/",
-    element: <Navigate to="/historytable" />,
+    element: <Navigate to="/historytable/:id" />,
   },
 
-  { path: "/historytable", element: <HistoryTable /> },
+  { path: "/historytable/:id", element: <HistoryTable /> },
 
 
   {
