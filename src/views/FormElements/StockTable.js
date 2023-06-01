@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 import { TbRuler3 } from "react-icons/tb";
+import jwtDecode from "jwt-decode";
 
 const products = [
   {
@@ -79,7 +80,6 @@ const StockTable = () => {
   const [allClients, setAllClients] = useState([]);
   const [paymentModal, setPaymentModal] = useState({
     status: false,
-    data: {},
   });
 
   const [clientId, setClientId] = useState("");
@@ -87,6 +87,26 @@ const StockTable = () => {
   const [installment, setInstallment] = useState(3);
   const [sensors, setSensors] = useState([]);
   const [selectedSensor, setSelectedSensor] = useState(sensors[0] || "");
+  const [editClientId, setEditClientId] = useState("");
+
+  const token = localStorage.getItem("token");
+  const decode = jwtDecode(token);
+
+  const [editClientData, setEditClientData] = useState({
+    Names: "",
+    PaymentStartDate: "",
+    Sensor: "",
+    Battery: "",
+    NaradaTel: "",
+    Phone: "",
+    MonthlyInstallment: "",
+    District: "",
+    Sector: "",
+    Cell: "",
+    Nearby: "",
+    Longitude: "",
+    Latitude: "",
+  });
 
   useEffect(() => {
     const handleGetClients = async () => {
@@ -95,15 +115,6 @@ const StockTable = () => {
           "https://narada.onrender.com/api/client/getAll"
         );
         setClients(response.data.clients);
-        setAllClients(response.data.clients);
-
-        // fetch sensor data and save unique sensors
-        const clientSensors = [
-          ...new Set(response.data.clients.map((client) => client.sensor)),
-        ];
-        setSensors(clientSensors);
-
-        console.log(response.data.clients, "clients");
       } catch (error) {
         console.log(error);
         alert("An error occurred while getting clients.");
@@ -113,7 +124,6 @@ const StockTable = () => {
   }, []);
 
   useEffect(() => {
-    // filter clients by selected sensor
     const filteredClients = allClients.filter(
       (client) => client.sensor === Number(selectedSensor)
     );
@@ -137,13 +147,69 @@ const StockTable = () => {
       alert("An error occurred while processing payments.");
     }
   };
+  const handleEdit = (clientId) => {
+    const selectedClient = clients.find((client) => client._id === clientId);
+    setEditClientId(clientId);
+    setEditClientData({
+      Names: selectedClient.username,
+      PaymentStartDate: selectedClient.paymentStartDate,
+      Sensor: selectedClient.sensor,
+      Battery: selectedClient.battery.toString(),
+      NaradaTel: selectedClient.naradaTel,
+      Phone: selectedClient.phone,
+      MonthlyInstallment: selectedClient.monthlyInstallment,
+      District: selectedClient.district,
+      Sector: selectedClient.sector,
+      Cell: selectedClient.cell,
+      Nearby: selectedClient.nearby,
+      Longitude: selectedClient.longitude,
+      Longitude: selectedClient.latitude,
+    });
+    setPaymentModal({ status: true });
+  };
+  const handleDelete = async (clientId) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.delete(
+        `https://narada.onrender.com/api/client/delete/${clientId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+      alert("An error occurred while deleting the client.");
+    }
+  };
+
+  const handleUpdate = async (e) => {
+    try {
+      const response = await axios.patch(
+        `https://narada.onrender.com/api/client/update/${editClientId}`,
+        editClientData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      alert(" client updated successfully.");
+    } catch (error) {
+      console.log(error);
+      alert("An error occurred while updating the client.");
+    }
+  };
 
   return (
     <div style={{ height: "500px", overflow: "auto" }}>
-    
       <div>
         <select
-        className="form-select"
+          className="form-select"
           onChange={(e) => {
             setSelectedSensor(e.target.value);
           }}
@@ -208,10 +274,11 @@ const StockTable = () => {
               <Typography fontWeight="600">Nearby</Typography>
             </TableCell>
             <TableCell align="right">
-              <Typography fontWeight="600">Coordinates</Typography>
+              <Typography fontWeight="600">Longitude</Typography>
             </TableCell>
-           
-           
+            <TableCell align="right">
+              <Typography fontWeight="600">Latitude</Typography>
+            </TableCell>
 
             <TableCell align="center">
               <Typography fontWeight="600">Actions</Typography>
@@ -273,13 +340,27 @@ const StockTable = () => {
                   <Typography>{product.nearby}</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography>{product.coordinates}</Typography>
+                  <Typography>{product.longitude}</Typography>
                 </TableCell>
-               
-               
                 <TableCell>
-                  <Button color="secondary" variant="contained" onClick={() => setPaymentModal({status: true})}>Edit</Button>
-                  <Button color="danger" variant="contained">Delete</Button>
+                  <Typography>{product.latitude}</Typography>
+                </TableCell>
+
+                <TableCell>
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => handleEdit(product._id)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    color="danger"
+                    variant="contained"
+                    onClick={() => handleDelete(product._id)}
+                  >
+                    Delete
+                  </Button>
                 </TableCell>
                 {/* <TableCell>
               <Typography > 
@@ -297,7 +378,6 @@ const StockTable = () => {
         </TableBody>
       </Table>
 
-      {/* payment modal */}
       <Modal
         keepMounted
         open={paymentModal.status}
@@ -320,6 +400,7 @@ const StockTable = () => {
                 Names: e.target.value,
               })
             }
+            sx={{ margin: "3px" }}
           />
           <TextField
             id="outlined-basic"
@@ -332,6 +413,7 @@ const StockTable = () => {
                 PaymentStartDate: e.target.value,
               })
             }
+            sx={{ margin: "3px" }}
           />
 
           <TextField
@@ -345,6 +427,7 @@ const StockTable = () => {
                 Sensor: e.target.value,
               })
             }
+            sx={{ margin: "3px" }}
           />
           <TextField
             id="outlined-basic"
@@ -357,6 +440,7 @@ const StockTable = () => {
                 Battery: e.target.value,
               })
             }
+            sx={{ margin: "3px" }}
           />
           <TextField
             id="outlined-basic"
@@ -369,6 +453,7 @@ const StockTable = () => {
                 NaradaTel: e.target.value,
               })
             }
+            sx={{ margin: "3px" }}
           />
           <TextField
             id="outlined-basic"
@@ -393,6 +478,7 @@ const StockTable = () => {
                 MonthlyInstallment: e.target.value,
               })
             }
+            sx={{ margin: "3px" }}
           />
           <TextField
             id="outlined-basic"
@@ -405,6 +491,7 @@ const StockTable = () => {
                 District: e.target.value,
               })
             }
+            sx={{ margin: "3px" }}
           />
           <TextField
             id="outlined-basic"
@@ -417,6 +504,7 @@ const StockTable = () => {
                 Sector: e.target.value,
               })
             }
+            sx={{ margin: "3px" }}
           />
           <TextField
             id="outlined-basic"
@@ -429,6 +517,7 @@ const StockTable = () => {
                 Cell: e.target.value,
               })
             }
+            sx={{ margin: "3px" }}
           />
           <TextField
             id="outlined-basic"
@@ -441,6 +530,33 @@ const StockTable = () => {
                 Nearby: e.target.value,
               })
             }
+            sx={{ margin: "3px" }}
+          />
+          <TextField
+            id="outlined-basic"
+            label="Longitude"
+            variant="outlined"
+            value={editClientData.Longitude}
+            onChange={(e) =>
+              setEditClientData({
+                ...editClientData,
+                Longitude: e.target.value,
+              })
+            }
+            sx={{ margin: "3px" }}
+          />
+          <TextField
+            id="outlined-basic"
+            label="Latitude"
+            variant="outlined"
+            value={editClientData.Latitude}
+            onChange={(e) =>
+              setEditClientData({
+                ...editClientData,
+                Latitude: e.target.value,
+              })
+            }
+            sx={{ margin: "3px" }}
           />
           <Button variant="contained" onClick={handleUpdate}>
             Update
@@ -449,8 +565,7 @@ const StockTable = () => {
           {/* <Button variant="contained" >update</Button>  */}
         </Box>
       </Modal>
-      </div>
-    
+    </div>
   );
 };
 

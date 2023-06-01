@@ -17,9 +17,9 @@ export default function StockForm() {
   const [battery, setBattery] = React.useState("");
   const [totalAmount, setTotalAmount] = React.useState("");
   const [nearby, setNearby] = React.useState("");
-  
-  const [coordinates, setCoordinates] = React.useState("");
-  //const [totalRemaining, setTotalRemaining] = React.useState("");
+  const [latitude, setLatitude] = React.useState("");
+  const [longitude, setLongitude] = React.useState("");
+ 
   
 
   
@@ -42,7 +42,8 @@ export default function StockForm() {
         sector,
         cell, 
         nearby,
-        coordinates,
+        longitude,
+        latitude,
       
        
       });
@@ -62,8 +63,8 @@ export default function StockForm() {
       setSector("");
       setCell("");
       setNearby("");
-      setCoordinates("");
-     
+      setLongitude("");
+      setLatitude("");
       
     } catch (error) {
       console.log(error);
@@ -321,9 +322,22 @@ export default function StockForm() {
             fullWidth
             id="my-input"
             variant="outlined"
-            label="Coordinates"
-            value={coordinates}
-            onChange={(e) => setCoordinates(e.target.value)}
+            label="Longitude"
+            value={longitude}
+            onChange={(e) => setLongitude(e.target.value)}
+            required
+            sx={{
+              mb: 2,
+            }}
+
+          />
+          <TextField
+            fullWidth
+            id="my-input"
+            variant="outlined"
+            label="Latitude"
+            value={latitude}
+            onChange={(e) => setLatitude(e.target.value)}
             required
             sx={{
               mb: 2,

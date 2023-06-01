@@ -25,8 +25,7 @@ function Login() {
       console.log(response,'role');
       
 
-      localStorage.setItem("token", "Bearer " + response.data.token);
-      // localStorage.setItem("inv-role", data.data.role);
+      localStorage.setItem("token", response.data.token);
       if (response.data.user.role === "admin") {
         navigate("/dashboard");
       }

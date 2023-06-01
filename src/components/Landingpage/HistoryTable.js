@@ -4,6 +4,8 @@ import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@m
 
 const dummyHistoryData = [
   {
+    amount: "5000",
+    date: "2023-05-31",
     username: "Nomi",
     monthlyInstallment: 100,
     totalAmount: 500,
@@ -29,8 +31,10 @@ const HistoryTable = () => {
       </Typography>
       <Table>
         <TableHead>
-        <TableRow sx={{ backgroundColor: "pink" }}>
+        <TableRow sx={{ backgroundColor: "lightblue" }}>
+        <TableCell>Amount</TableCell>
             <TableCell>Username</TableCell>
+            <TableCell>Date</TableCell>
             <TableCell>Monthly Installment</TableCell>
             <TableCell>Total Amount</TableCell>
             <TableCell>Total Remaining</TableCell>
@@ -40,6 +44,8 @@ const HistoryTable = () => {
           {history.map((entry, index) => (
             <TableRow key={index} className={index === 0 ? "highlight-row" : ""}>
               <TableCell >{entry.username}</TableCell>
+              <TableCell >{entry.username}</TableCell>
+              <TableCell >{entry.date}</TableCell>
               <TableCell>{entry.monthlyInstallment}</TableCell>
               <TableCell>{entry.totalAmount}</TableCell>
               <TableCell>{entry.totalRemaining}</TableCell>

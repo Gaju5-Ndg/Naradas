@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 import {
   Typography,
   Box,
@@ -8,8 +9,6 @@ import {
   Modal,
   TextField,
 } from "@material-ui/core";
-
-
 
 const style = {
   position: 'absolute',
@@ -22,15 +21,18 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
 const PaymentTable = () => {
   const [paymentData, setPaymentData] = useState([]);
   const [paymentModal, setPaymentModal] = useState({
     status: false,
     data: {}
-  })
+  });
   const [clientId, setClientId] = useState('');
-  const [Amount, setAmount] = useState('')
-  const [installment, setInstallment] = useState("")
+  const [Amount, setAmount] = useState('');
+  const [installment, setInstallment] = useState('');
+  const token = localStorage.getItem("token");
+  const decode = jwtDecode(token);
   
 
   const calculateRemainingAmount = (data) => {
@@ -55,14 +57,22 @@ const PaymentTable = () => {
         {
           Amount,
           installment,
+
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       console.log(response);
+      
     } catch (error) {
       console.log("error", error);
       // alert("An error occurred while processing payments.");
     }
   };
+
   return (
     <>
       <table style={{ borderCollapse: "collapse" }}>
@@ -74,6 +84,7 @@ const PaymentTable = () => {
             <th style={{ padding: "10px" }}>Paid Amount</th>
             <th style={{ padding: "10px" }}>Overflow</th>
             <th style={{ padding: "10px" }}>Remaining Amount</th>
+            <th style={{ padding: "10px" }}>History</th>
             <th style={{ padding: "10px" }}>Pay</th>
           </tr>
         </thead>
@@ -83,35 +94,20 @@ const PaymentTable = () => {
               <td style={{ padding: "10px" }}>{data.username}</td>
               <td style={{ padding: "10px" }}>{data.deviceId}</td>
               <td style={{ padding: "10px" }}>{data.totalAmount}</td>
-              
               <td style={{ padding: "10px" }}>
                 {data.totalAmount - data.totalRemaining}
               </td>
               <td style={{ padding: "10px" }}>{data.overFlow}</td>
               <td style={{ padding: "10px" }}>{data.totalRemaining}</td>
               <td style={{ padding: "10px" }}>
-                {calculateRemainingAmount(data)}
+              <NavLink to="/historytable">History</NavLink>
+                {/* <NavLink to={`/history/${data.id}`}>History</NavLink> */}
               </td>
               <td style={{ padding: "10px" }}>
-                {/* <button
-                  type="submit"
-                  onClick={() => handlePayment(index, 50)}
-                  disabled={data.paidAmount >= data.totalAmount}
-                  style={{
-                    backgroundColor: "blue",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "4px",
-                    padding: "8px 12px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Pay
-                </button> */}
-                 <Button variant="contained" onClick={() => {
-                    setPaymentModal({ status: true, data: data });
-                    setClientId(data._id);
-                  }}>Pay</Button>
+                <Button variant="contained" onClick={() => {
+                  setPaymentModal({ status: true, data: data });
+                  setClientId(data._id);
+                }}>Pay</Button>
               </td>
             </tr>
           ))}
