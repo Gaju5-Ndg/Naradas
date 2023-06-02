@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import "./Login.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Alert from "react-bootstrap/Alert";
 
 function Login() {
   const [deviceId, setDeviceId] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -22,26 +23,31 @@ function Login() {
           password,
         }
       );
-      console.log(response,'role');
-      
+      console.log(response, "role");
 
       localStorage.setItem("token", response.data.token);
       if (response.data.user.role === "admin") {
         navigate("/dashboard");
-      }
-      else {
+      } else {
         navigate("/home");
       }
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      setErrorMessage("User not found");
       console.log(error);
     }
   };
+
   return (
     <div className="login-container">
       <div className="left-container">
         <h2>Login</h2>
+        {errorMessage && (
+          <Alert variant="danger" className="mb-3">
+            {errorMessage}
+          </Alert>
+        )}
         <form>
           <div
             style={{

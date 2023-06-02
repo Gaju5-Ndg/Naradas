@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import {
   Typography,
@@ -31,6 +32,7 @@ const PaymentTable = () => {
   const [clientId, setClientId] = useState('');
   const [Amount, setAmount] = useState('');
   const [installment, setInstallment] = useState('');
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const decode = jwtDecode(token);
   
@@ -65,6 +67,8 @@ const PaymentTable = () => {
           },
         }
       );
+      alert("Payment added successfully")
+      navigate("/dashboard/form-elements/sale");
       console.log(response);
       
     } catch (error) {
@@ -100,7 +104,7 @@ const PaymentTable = () => {
               <td style={{ padding: "10px" }}>{data.overFlow}</td>
               <td style={{ padding: "10px" }}>{data.totalRemaining}</td>
               <td style={{ padding: "10px" }}>
-              <NavLink to="/historytable">History</NavLink>
+              <NavLink to={`/historytable/${data._id}`}>History</NavLink>
                 {/* <NavLink to={`/history/${data.id}`}>History</NavLink> */}
               </td>
               <td style={{ padding: "10px" }}>
@@ -131,13 +135,13 @@ const PaymentTable = () => {
             onChange={(e) => setAmount(e.target.value)}
             variant="outlined"
           />
-          <TextField
+          {/* <TextField
             id="filled-basic"
             label="Installment"
             value={installment}
             onChange={(e) => setInstallment(e.target.value)}
             variant="filled"
-          />
+          /> */}
           <Button variant="contained" onClick={handlePayment}>
             Pay Now
           </Button>

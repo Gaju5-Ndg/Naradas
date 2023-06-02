@@ -106,6 +106,7 @@ const StockTable = () => {
     Nearby: "",
     Longitude: "",
     Latitude: "",
+    OverFlow: "",
   });
 
   useEffect(() => {
@@ -173,6 +174,7 @@ const StockTable = () => {
       Nearby: selectedClient.nearby,
       Longitude: selectedClient.longitude,
       Longitude: selectedClient.latitude,
+      OverFlow: selectedClient.overFlow
     });
     setPaymentModal({ status: true });
   };
@@ -289,7 +291,9 @@ const StockTable = () => {
             <TableCell align="right">
               <Typography fontWeight="600">Latitude</Typography>
             </TableCell>
-
+            <TableCell align="right">
+              <Typography fontWeight="600">OverFlow</Typography>
+            </TableCell>
             <TableCell align="center">
               <Typography fontWeight="600">Actions</Typography>
             </TableCell>
@@ -354,6 +358,9 @@ const StockTable = () => {
                 </TableCell>
                 <TableCell>
                   <Typography>{product.latitude}</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>{product.overFlow}</Typography>
                 </TableCell>
 
                 <TableCell>
