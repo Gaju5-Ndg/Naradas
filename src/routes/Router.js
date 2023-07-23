@@ -169,6 +169,7 @@ const ThemeRoutes = [
       { path: "/addSale", element: <AddSale /> },
       
       { path: "/Signup", element: <Signup /> },
+      { path: "/historytable/:id" ,element: <HistoryTable />}
       // {  },
     ],
   },

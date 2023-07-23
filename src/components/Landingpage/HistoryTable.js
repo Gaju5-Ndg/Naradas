@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Navbar from "./Navbar";
 import {
   Table,
   TableBody,
@@ -38,6 +39,7 @@ const HistoryTable = ({ clientId }) => {
         <TableHead>
           <TableRow sx={{ backgroundColor: "lightblue" }}>
             {clientId && <TableCell>Username</TableCell>}
+            <TableCell>Names</TableCell>
             <TableCell>Amount</TableCell>
             <TableCell>Monthly Installment</TableCell>
             <TableCell>Total Amount</TableCell>
@@ -50,10 +52,12 @@ const HistoryTable = ({ clientId }) => {
           {history.map((entry, index) => (
             <TableRow key={index}>
               {clientId && <TableCell>{entry.clientName}</TableCell>}
+              <TableCell>{entry.username}</TableCell>
               <TableCell>{entry.amount}</TableCell>
               <TableCell>{entry.monthlyInstallment}</TableCell>
               <TableCell>{entry.totalAmount}</TableCell>
               <TableCell>{entry.totalRemaining}</TableCell>
+              <TableCell></TableCell>
               <TableCell>
                 {new Date(entry.nextPaymentDate).toLocaleDateString("en-US", {
                   weekday: "long",
